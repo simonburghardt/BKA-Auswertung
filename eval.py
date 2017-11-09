@@ -13,7 +13,7 @@ def load_list():
     # Läd die Datei und speichert den Inhalt in data list und die Feldnamen in Header
     global data_list, header
 
-    with open(csv_file, 'r+', encoding='utf-8') as f:
+    with open(csv_file, 'r+', encoding='windows-1252') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             data_list.append(row)
@@ -32,7 +32,7 @@ def save_list(save_data_list, save_header, filename):
     if not os.path.exists(output_folder):
         # creates output folder if it doesnt exist
         os.makedirs(output_folder)
-    with open(output_folder + filename, 'w+', encoding='utf-8') as f:
+    with open(output_folder + filename, 'w+', encoding='windows-1252') as f:
         writer = csv.DictWriter(f, save_header, delimiter=';', extrasaction='ignore', lineterminator='\n')
         writer.writeheader()
         writer.writerows(save_data_list)
