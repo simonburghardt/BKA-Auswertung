@@ -35,3 +35,9 @@ def save_list():
 
 load_list()
 print(header)
+counter = 0
+for data in data_list:
+    print(data)
+    counter += 1
+    if counter > 10:
+        break
