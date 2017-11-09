@@ -1,7 +1,6 @@
 import csv
 import operator
 import os
-import time
 
 data_list = []  # Liste der Datensatz-Dictionaries
 header = []  # Liste der Feldnamen
@@ -62,31 +61,44 @@ def search_for_string(search_data_list, key, value):
     return return_list
 
 
-def timestring():
-    # used for creating unique files
-    return str(time.time())
+def filter_by(filter_data_list, key, value):
+    # filter list by one key
+    # returnt neue Liste
+    return_list = []
+    for data in filter_data_list:
+        if data[key] == value:
+            return_list.append(data)
+
+    return return_list
 
 
-def filterby(kreisart, filter_straftat):
-    #filtert eine Liste nach angegebener Kreisart und einer Filterstraftat
-    #returnt neue Liste
-
-    liste = search_for_value(data_list, 'Aufklaerungsquote', '<', 50)
-    return_liste = []
-    for eintrag in liste:
-        if eintrag['Kreisart'] == kreisart:
-            if eintrag['Straftat'] != filter_straftat:
-                return_liste.append(eintrag)
-
-    return return_liste
-
+def count(count_data_list, key):
+    # returns dictionary with key and sum
+    sum_count = {}
+    for data in count_data_list:
+        key_value = data[key]
+        if key_value in sum_count.keys():
+            sum_count[key_value] += int(data['erfasste Faelle'])
+        else:
+            sum_count[key_value] = 0
+    return_list = []
+    for k, v in sum_count.items():
+        return_list.append({key: k, "Summe": v})
+    return return_list
 
 
 load_list()
 
-list1 = search_for_value(data_list, 'Aufklaerungsquote', '<', 50)
-list_filtered = filterby('LK', 'Straftaten insgesamt')
-save_list(list_filtered, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], timestring() + 'aufgabe1-1.csv')
+list1 = filter_by(data_list, 'Kreisart', 'LK')
+list1 = search_for_value(list1, 'Aufklaerungsquote', '<', 50)
+save_list(list1, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], 'aufgabe1-1.csv')
+
+list2 = count(data_list, "Straftat")
+save_list(list2, ['Straftat', 'Summe'], 'aufgabe1-2.csv')
+
+# list2 = count(data_list, "Stadt-/Landkreis")
+# save_list(list2, ['Stadt-/Landkreis', 'Summe'], 'aufgabe1-2.csv')
+# Test-Fragment
 
 
 # print(header)
