@@ -67,10 +67,27 @@ def timestring():
     return str(time.time())
 
 
+def filterby(kreisart, filter_straftat):
+    #filtert eine Liste nach angegebener Kreisart und einer Filterstraftat
+    #returnt neue Liste
+
+    liste = search_for_value(data_list, 'Aufklaerungsquote', '<', 50)
+    return_liste = []
+    for eintrag in liste:
+        if eintrag['Kreisart'] == kreisart:
+            if eintrag['Straftat'] != filter_straftat:
+                return_liste.append(eintrag)
+
+    return return_liste
+
+
+
 load_list()
 
 list1 = search_for_value(data_list, 'Aufklaerungsquote', '<', 50)
-save_list(list1, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], timestring() + 'aufgabe1-1.csv')
+list_filtered = filterby('LK', 'Straftaten insgesamt')
+save_list(list_filtered, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], timestring() + 'aufgabe1-1.csv')
+
 
 # print(header)
 # counter = 0
