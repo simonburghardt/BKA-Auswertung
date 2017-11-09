@@ -8,45 +8,44 @@ header = []  # Liste der Feldnamen
 csv_file = 'data/data.csv'  # Dateipfad der auszuwertenden Dateien
 output_folder = 'output/'
 
-operators = {'>': operator.gt,
-             '<': operator.lt,
-             '>=': operator.ge,
-             '<=': operator.le,
-             '=': operator.eq}
-
 
 def load_list():
     # Läd die Datei und speichert den Inhalt in data list und die Feldnamen in Header
     global data_list, header
 
-    with open(csv_file, "r+", encoding='utf-8') as f:
+    with open(csv_file, 'r+', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
             data_list.append(row)
         header = reader.fieldnames
         # Funktioniert aktuell nur mit modifizierter Datei
-    print("Daten geladen!")
+    print('Daten geladen!')
     return True
 
 
-def save_list(save_data_list, filename):
-    # user_input = input("Soll die Liste '" + csv_file + "' wirklich gespeichert werden? \'Ja\' zur Bestätigung eingeben")
-    # if user_input == "" or not (user_input[0].upper() == 'J'):
-    #     print("Keine Liste gespeichert!")
+def save_list(save_data_list, save_header, filename):
+    # user_input = input('Soll die Liste '' + csv_file + '' wirklich gespeichert werden? \'Ja\' zur Bestätigung eingeben')
+    # if user_input == '' or not (user_input[0].upper() == 'J'):
+    #     print('Keine Liste gespeichert!')
     #     return False
 
     if not os.path.exists(output_folder):
         # creates output folder if it doesnt exist
         os.makedirs(output_folder)
-    with open(output_folder + filename, "w+", encoding='utf-8') as f:
-        writer = csv.DictWriter(f, header, delimiter=';', lineterminator='\n')
+    with open(output_folder + filename, 'w+', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, save_header, delimiter=';', extrasaction='ignore', lineterminator='\n')
         writer.writeheader()
         writer.writerows(save_data_list)
-    print("Datensätze gespeichert!")
+    print('Datensätze gespeichert!')
     return True
 
 
 def search_for_value(search_data_list, key, operator_string, value):
+    operators = {'>': operator.gt,
+                 '<': operator.lt,
+                 '>=': operator.ge,
+                 '<=': operator.le,
+                 '=': operator.eq}
     return_list = []
     op = operators[operator_string]
     for data in search_data_list:
@@ -69,10 +68,9 @@ def timestring():
 
 
 load_list()
-print(data_list)
-list1 = search_for_value(data_list, 'Aufklaerungsquote', '<', 50)
 
-save_list(list1, timestring() + "aufgabe1-1.csv")
+list1 = search_for_value(data_list, 'Aufklaerungsquote', '<', 50)
+save_list(list1, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], timestring() + 'aufgabe1-1.csv')
 
 # print(header)
 # counter = 0
