@@ -73,7 +73,7 @@ def filter_by(filter_data_list, key, value):
     return return_list
 
 
-def count(count_data_list, key):
+def count_all_cases(count_data_list, key):
     # returns dictionary with key and sum
     sum_count = {}
     for data in count_data_list:
@@ -104,7 +104,7 @@ list1 = filter_by(data_list, 'Kreisart', 'LK')
 list1 = search_for_value(list1, 'Aufklaerungsquote', '<', 50)
 save_list(list1, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], 'aufgabe1-1.csv')
 
-list2 = count(data_list, "Straftat")
+list2 = count_all_cases(data_list, "Straftat")
 save_list(list2, ['Straftat', 'Summe'], 'aufgabe1-2.csv')
 
 list3 = sort_by(list2, 'Summe', 'absteigend')
