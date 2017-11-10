@@ -1,6 +1,7 @@
 import csv
 import operator
 import os
+from collections import OrderedDict
 
 data_list = []  # Liste der Datensatz-Dictionaries
 header = []  # Liste der Feldnamen
@@ -63,7 +64,7 @@ def search_for_string(search_data_list, key, value):
 
 def filter_by(filter_data_list, key, value):
     # filter list by one key
-    # returnt neue Liste
+    # returns filtered list
     return_list = []
     for data in filter_data_list:
         if data[key] == value:
@@ -87,6 +88,16 @@ def count(count_data_list, key):
     return return_list
 
 
+def sort_by(sort_data_list, sort_key, sort_how):
+    # returns list of dictionarys sorted by sortkey
+    sorted_list = []
+    if sort_how == 'aufsteigend':
+        sorted_list = sorted(sort_data_list, key=lambda k: k[sort_key], reverse=False)
+    if sort_how == 'absteigend':
+        sorted_list = sorted(sort_data_list, key=lambda k: k[sort_key], reverse=True)
+    return sorted_list
+
+
 load_list()
 
 list1 = filter_by(data_list, 'Kreisart', 'LK')
@@ -95,6 +106,9 @@ save_list(list1, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], 'aufgabe
 
 list2 = count(data_list, "Straftat")
 save_list(list2, ['Straftat', 'Summe'], 'aufgabe1-2.csv')
+
+list3 = sort_by(list2, 'Summe', 'absteigend')
+save_list(list3, ['Straftat', 'Summe'], 'aufgabe1-3.csv')
 
 # list2 = count(data_list, "Stadt-/Landkreis")
 # save_list(list2, ['Stadt-/Landkreis', 'Summe'], 'aufgabe1-2.csv')
