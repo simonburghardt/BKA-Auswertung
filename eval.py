@@ -11,19 +11,19 @@ output_folder = 'output/'
 
 def menu():
     while True:
-        user_input = input("\t\t1 -> Teilaufgabe 1 ausgeben\n\
-        2 -> Suchen\n\
+        user_input = input('\t\t1 -> Teilaufgabe 1 ausgeben\n\
+        2 -> Suche nach Daten (2.1)\n\
         3 -> Filtern\n\
-        4 -> Programm beenden")
-        if user_input == "1":
+        4 -> Programm beenden\n')
+        if user_input == '1':
             exercise1()
-        elif user_input == "2":
-            print()
+        elif user_input == '2':
+            search(data_list)
             # TODO: Aufgabe 2-1
-        elif user_input == "3":
+        elif user_input == '3':
             print()
             # TODO: Aufgabe 2-2
-        elif user_input == "4":
+        elif user_input == '4':
             exit()
         else:
             print('Ungügltige Eingabe')
@@ -34,11 +34,12 @@ def exercise1():
     list1 = search_for_value(list1, 'Aufklaerungsquote', '<', 50)
     save_list(list1, ['Stadt-/Landkreis', 'Straftat', 'Aufklaerungsquote'], 'aufgabe1-1.csv')
 
-    list2 = count_all_cases(data_list, "Straftat")
+    list2 = count_all_cases(data_list, 'Straftat')
     save_list(list2, ['Straftat', 'Summe'], 'aufgabe1-2.csv')
 
     list3 = sort_by(list2, 'Summe', 'absteigend')
     save_list(list3, ['Straftat', 'Summe'], 'aufgabe1-3.csv')
+
 
 def load_list():
     # Läd die Datei und speichert den Inhalt in data list und die Feldnamen in Header
@@ -115,7 +116,7 @@ def count_all_cases(count_data_list, key):
             sum_count[key_value] = 0
     return_list = []
     for k, v in sum_count.items():
-        return_list.append({key: k, "Summe": v})
+        return_list.append({key: k, 'Summe': v})
     return return_list
 
 
@@ -129,12 +130,36 @@ def sort_by(sort_data_list, sort_key, sort_how):
     return sorted_list
 
 
+def print_list(print_data_list):
+    for data in print_data_list:
+        print(data)
+        # TODO: Ausgabe formatieren
+    return True
+
+
+def search(search_data_list):
+    prompt = 'Welches Feld soll durchsucht werden? Verfügbare Werte:\n'
+    for key in header:
+        prompt += '(' + key + ') '
+    prompt += '\n'
+    # TODO: Prompt überarbeiten
+    key = input(prompt)
+
+    if key not in header:
+        print('Wert ist nicht verfügbar')
+        return False
+
+    # Nur Suche nach absoluter Übereinstimmung möglich
+
+    value = input('Nach welchem Wert soll gesucht werden?')
+
+    print_list(search_for_string(search_data_list, key, value))
+
+    # TODO: Output Print/Save
+
 load_list()
 menu()
 
-# list2 = count(data_list, "Stadt-/Landkreis")
-# save_list(list2, ['Stadt-/Landkreis', 'Summe'], 'aufgabe1-2.csv')
-# Test-Fragment
 
 
 # print(header)
