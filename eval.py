@@ -19,7 +19,7 @@ def menu():
             exercise1()
         elif user_input == '2':
             search(data_list)
-            # TODO: Aufgabe 2-1
+            # TODO: Aufgabe 2-1 fertigstellen
         elif user_input == '3':
             print()
             # TODO: Aufgabe 2-2
@@ -56,11 +56,6 @@ def load_list():
 
 
 def save_list(save_data_list, save_header, filename):
-    # user_input = input('Soll die Liste '' + csv_file + '' wirklich gespeichert werden? \'Ja\' zur Bestätigung eingeben')
-    # if user_input == '' or not (user_input[0].upper() == 'J'):
-    #     print('Keine Liste gespeichert!')
-    #     return False
-
     if not os.path.exists(output_folder):
         # creates output folder if it doesnt exist
         os.makedirs(output_folder)
@@ -157,15 +152,6 @@ def search(search_data_list):
 
     # TODO: Output Print/Save
 
+
 load_list()
 menu()
-
-
-
-# print(header)
-# counter = 0
-# for data in data_list:
-#     print(data)
-#     counter += 1
-#     if counter > 10:
-#         break
