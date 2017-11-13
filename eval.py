@@ -53,7 +53,7 @@ def load_list():
         for row in reader:
             if row[header[0]] == '------' or row[header[0]] == '1':
                 # skips numbering and summeries
-                next
+                continue
             data_list.append(row)
         # Funktioniert aktuell nur mit modifizierter Datei
     print('Daten geladen!')
@@ -121,7 +121,7 @@ def count_all_cases(count_data_list, key):
 
 
 def sort_by(sort_data_list, sort_key, sort_how):
-    # returns list of dictionarys sorted by sortkey
+    # returns list of dictionaries sorted by sortkey
     sorted_list = []
     if sort_how == 'aufsteigend':
         sorted_list = sorted(sort_data_list, key=lambda k: k[sort_key], reverse=False)
