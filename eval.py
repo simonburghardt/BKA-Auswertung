@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 data_list = []  # Liste der Datensatz-Dictionaries
 header = []  # Liste der Feldnamen
-csv_file = 'data/data.csv'  # Dateipfad der auszuwertenden Dateien
+csv_file = 'data/data_doubleheader.csv'  # Dateipfad der auszuwertenden Dateien
 output_folder = 'output/'
 
 
@@ -46,10 +46,15 @@ def load_list():
     global data_list, header
 
     with open(csv_file, 'r+', encoding='windows-1252') as f:
+        f.readline()
+        # skips the numbering in line 1
         reader = csv.DictReader(f, delimiter=';')
-        for row in reader:
-            data_list.append(row)
         header = reader.fieldnames
+        for row in reader:
+            if row[header[0]] == '------' or row[header[0]] == '1':
+                # skips numbering and summeries
+                next
+            data_list.append(row)
         # Funktioniert aktuell nur mit modifizierter Datei
     print('Daten geladen!')
     return True
