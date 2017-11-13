@@ -137,6 +137,18 @@ def print_list(print_data_list):
     return True
 
 
+def save_or_print(search_data_list, key, value):
+    choice = input("Wollen sie das Ergebnis in der Console anzeigen lassen oder in einer CSV Datei speichern? Type Console or CSV")
+    if choice == 'Console':
+        print_list(search_for_string(search_data_list, key, value))
+    elif choice == 'CSV':
+        name = input("Geben sie den Namen ein, unter der Sie die Ergebnisse speichern wollen")
+
+        save_list(search_for_string(search_data_list, key, value), header, name + '.csv')
+    else:
+        print("Falsche Eingabe")
+
+
 def search(search_data_list):
     prompt = 'Welches Feld soll durchsucht werden? Verfügbare Werte:\n'
     for key in header:
@@ -153,10 +165,8 @@ def search(search_data_list):
 
     value = input('Nach welchem Wert soll gesucht werden?')
 
-    print_list(search_for_string(search_data_list, key, value))
-
     # TODO: Output Print/Save
-
+    save_or_print(search_data_list, key, value)
 
 load_list()
 menu()
