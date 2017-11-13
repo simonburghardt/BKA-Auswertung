@@ -1,11 +1,10 @@
 import csv
 import operator
 import os
-from collections import OrderedDict
 
 data_list = []  # Liste der Datensatz-Dictionaries
 header = []  # Liste der Feldnamen
-csv_file = 'data/data_doubleheader.csv'  # Dateipfad der auszuwertenden Dateien
+csv_file = 'data/data_original.csv'  # Dateipfad der auszuwertenden Dateien
 output_folder = 'output/'
 
 
@@ -137,14 +136,14 @@ def print_list(print_data_list):
     return True
 
 
-def save_or_print(search_data_list, key, value):
+def save_or_print(output_data_list):
     choice = input("Wollen sie das Ergebnis in der Console anzeigen lassen oder in einer CSV Datei speichern? Type Console or CSV")
     if choice == 'Console':
-        print_list(search_for_string(search_data_list, key, value))
+        print_list(output_data_list)
     elif choice == 'CSV':
         name = input("Geben sie den Namen ein, unter der Sie die Ergebnisse speichern wollen")
-
-        save_list(search_for_string(search_data_list, key, value), header, name + '.csv')
+        # TODO: Value check
+        save_list(output_data_list, header, name + '.csv')
     else:
         print("Falsche Eingabe")
 
@@ -166,7 +165,14 @@ def search(search_data_list):
     value = input('Nach welchem Wert soll gesucht werden?')
 
     # TODO: Output Print/Save
-    save_or_print(search_data_list, key, value)
+    search_data_list = search_for_string(search_data_list, key, value)
+
+    if len(search_data_list) == 0:
+        print("Keine Einträge gefunden")
+        return True
+    else:
+        save_or_print(search_data_list)
+
 
 load_list()
 menu()
