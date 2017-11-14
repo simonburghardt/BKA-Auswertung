@@ -53,7 +53,7 @@ def load_list():
                 # skips numbering and summeries
                 continue
             data_list.append(row)
-        # Funktioniert aktuell nur mit modifizierter Datei
+        # Funktioniert jetzt mit original-datei
     print('Daten geladen!')
     return True
 
@@ -71,6 +71,7 @@ def save_list(save_data_list, save_header, filename):
 
 
 def search_for_value(search_data_list, key, operator_string, value):
+    # searches for data in a data-list, where a value is greater than the parameter value
     operators = {'>': operator.gt,
                  '<': operator.lt,
                  '>=': operator.ge,
@@ -85,6 +86,7 @@ def search_for_value(search_data_list, key, operator_string, value):
 
 
 def search_for_string(search_data_list, key, value):
+    # searches for a given value in a given column in a data-list
     return_list = []
     for data in search_data_list:
         if value in data[key]:
@@ -119,7 +121,7 @@ def count_all_cases(count_data_list, key):
 
 
 def sort_by(sort_data_list, sort_key, sort_how):
-    # returns list of dictionaries sorted by sortkey
+    # returns list of dictionaries sorted by a sort-key
     sorted_list = []
     if sort_how == 'aufsteigend':
         sorted_list = sorted(sort_data_list, key=lambda k: k[sort_key], reverse=False)
@@ -129,6 +131,7 @@ def sort_by(sort_data_list, sort_key, sort_how):
 
 
 def print_list(print_data_list):
+    # prints given data-list into console
     for data in print_data_list:
         print(data)
         # TODO: Ausgabe formatieren
@@ -136,7 +139,9 @@ def print_list(print_data_list):
 
 
 def save_or_print(output_data_list):
-    choice = input("Wollen sie das Ergebnis in der Console anzeigen lassen oder in einer CSV Datei speichern? Type Console or CSV")
+    # decides whether to print a data-list into console or save in csv file
+    choice = input("Wollen sie das Ergebnis in der Console anzeigen lassen "
+                   "oder in einer CSV Datei speichern? Type Console or CSV")
     if choice == 'Console':
         print_list(output_data_list)
     elif choice == 'CSV':
@@ -144,7 +149,7 @@ def save_or_print(output_data_list):
 
         # TODO: Value check
         # schneidet den Namen ab, wenn ein Punkt eigegeben wurde. aufgabe.csv --> aufgabe
-        name = name.split(".")[0]
+        name = name.split("." or "," or "|")[0]
 
         save_list(output_data_list, header, name + '.csv')
     else:
@@ -152,6 +157,7 @@ def save_or_print(output_data_list):
 
 
 def search(search_data_list):
+    # add comment
     prompt = 'Welches Feld soll durchsucht werden? Verfügbare Werte:\n'
     for key in header:
         prompt += '(' + key + ') '
