@@ -18,7 +18,6 @@ def menu():
             exercise1()
         elif user_input == '2':
             search(data_list)
-            # TODO: Aufgabe 2-1 fertigstellen
         elif user_input == '3':
             print()
             # TODO: Aufgabe 2-2
@@ -88,7 +87,7 @@ def search_for_value(search_data_list, key, operator_string, value):
 def search_for_string(search_data_list, key, value):
     return_list = []
     for data in search_data_list:
-        if data[key] == value:
+        if value in data[key]:
             return_list.append(data)
     return return_list
 
@@ -142,7 +141,11 @@ def save_or_print(output_data_list):
         print_list(output_data_list)
     elif choice == 'CSV':
         name = input("Geben sie den Namen ein, unter der Sie die Ergebnisse speichern wollen")
+
         # TODO: Value check
+        # schneidet den Namen ab, wenn ein Punkt eigegeben wurde. aufgabe.csv --> aufgabe
+        name = name.split(".")[0]
+
         save_list(output_data_list, header, name + '.csv')
     else:
         print("Falsche Eingabe")
@@ -164,7 +167,6 @@ def search(search_data_list):
 
     value = input('Nach welchem Wert soll gesucht werden?')
 
-    # TODO: Output Print/Save
     search_data_list = search_for_string(search_data_list, key, value)
 
     if len(search_data_list) == 0:
