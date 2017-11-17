@@ -21,9 +21,7 @@ def menu():
         elif user_input == '3':
             print("Sie haben nun die Möglichkeit, in 2 numerischen Feldern zu suchen, "
                   "und diese dann mit UND oder ODER logisch zu verknüpfen!")
-            list1 = filter_numeric(data_list)
-            list2 = filter_numeric(data_list)
-            filter_connect(list1, list2)
+            filter_connect()
         elif user_input == '4':
             exit()
         else:
@@ -81,12 +79,15 @@ def search_for_value(search_data_list, key, operator_string, value):
                  '<=': operator.le,
                  '=': operator.eq}
     return_list = []
-    op = operators[operator_string]
-    for data in search_data_list:
-        if op(float(data[key]), float(value)):
-            return_list.append(data)
-    return return_list
-
+    if operators.__contains__(operator_string):
+        op = operators[operator_string]
+        for data in search_data_list:
+            if op(float(data[key]), float(value)):
+                return_list.append(data)
+        return return_list
+    else:
+        print('Falscher Operator eingegeben')
+        return False
 
 def search_for_string(search_data_list, key, value):
     # searches for a given value in a given column in a data-list
@@ -204,9 +205,17 @@ def filter_numeric(filter_data_list):
 
     else:
         print('Falsche Eingabe')
+        return False
 
 
-def filter_connect(filter_data_list1, filter_data_list2):
+def filter_connect():
+    filter_data_list1 = filter_numeric(data_list)
+    if filter_data_list1 == False:
+        return False
+    filter_data_list2 = filter_numeric(data_list)
+    if filter_data_list2 == False:
+        return False
+
     # merges the 2 filtered data lists and connects them with AND or OR
     output_list = []
     hilf = []
