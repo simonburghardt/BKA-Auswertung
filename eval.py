@@ -19,8 +19,11 @@ def menu():
         elif user_input == '2':
             search(data_list)
         elif user_input == '3':
-            print()
-            # TODO: Aufgabe 2-2
+            print("Sie haben nun die Möglichkeit, in 2 numerischen Feldern zu suchen, "
+                  "und diese dann mit UND oder ODER logisch zu verknüpfen!")
+            list1 = filter_numeric(data_list)
+            list2 = filter_numeric(data_list)
+            filter_connect(list1, list2)
         elif user_input == '4':
             exit()
         else:
@@ -80,7 +83,7 @@ def search_for_value(search_data_list, key, operator_string, value):
     return_list = []
     op = operators[operator_string]
     for data in search_data_list:
-        if op(float(data[key]), value):
+        if op(float(data[key]), float(value)):
             return_list.append(data)
     return return_list
 
@@ -169,10 +172,8 @@ def search(search_data_list):
         print('Wert ist nicht verfügbar')
         return False
 
-    # Nur Suche nach absoluter Übereinstimmung möglich
-
+    # Suche nach Teilstrings ist möglich
     value = input('Nach welchem Wert soll gesucht werden?')
-
     search_data_list = search_for_string(search_data_list, key, value)
 
     if len(search_data_list) == 0:
@@ -180,6 +181,62 @@ def search(search_data_list):
         return True
     else:
         save_or_print(search_data_list)
+
+
+def filter_numeric(filter_data_list):
+    # filters in numeric fields of a data list, by key, value and comparison operator
+    numeric_keys = ['Schluesse', 'Gemeindeschluessel', 'erfasste Faelle', 'HZ nach Zensus', 'Versuche - Anzahl',
+                    'Versuche - Anteil in %', 'mit Schusswaffe gedroht', 'mit Schusswaffe geschossen',
+                    'aufgeklaerte Faelle', 'Aufklaerungsquote', 'Tatverdaechtige insgesamt',
+                    'Tatverdaechtige - maennlich', 'Tatverdaechtige - weiblich', 'Nichtdeutsche Tatverdaechtige - Anzahl',
+                    'Nichtdeutsche Tatverdaechtige - Anteil in %']
+
+    prompt = 'In welchem numerischen Feld möchten sie suchen?\n'
+    for key in numeric_keys:
+        prompt += '(' + key + ') '
+    prompt += '\n'
+    key = input(prompt)
+    if numeric_keys.__contains__(key):
+        value = input("Nach welchem Wert wollen sie suchen?")
+        vergleich_operator = input("Geben sie einen Vergleichsoperator ein! (=, >, <, >=, <=")
+        list = search_for_value(filter_data_list, key, vergleich_operator, value)
+        return list
+
+    else:
+        print('Falsche Eingabe')
+
+
+def filter_connect(filter_data_list1, filter_data_list2):
+    # merges the 2 filtered data lists and connects them with AND or OR
+    output_list = []
+    hilf = []
+    log_op = input('Wollen sie die Liste mit UND oder ODER logisch verknüpfen?\n'
+                   'UND/ODER')
+
+    # writes both lists in 1 list (OR), leaves out data that is already in the list
+    if log_op == 'ODER':
+        for row in filter_data_list1:
+            output_list.append(row)
+        for row in filter_data_list2:
+            if output_list.__contains__(row):
+                pass
+            else:
+                output_list.append(row)
+        save_or_print(output_list)
+
+    # writes rows in the output list, that are in both lists (AND)
+    elif log_op == 'UND':
+        for row in filter_data_list1:
+            hilf.append(row)
+        for row in filter_data_list2:
+            if hilf.__contains__(row):
+                output_list.append(row)
+            else:
+                pass
+        save_or_print(output_list)
+
+    else:
+        print('Falsche Eingabe')
 
 
 load_list()
